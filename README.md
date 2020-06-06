@@ -54,6 +54,25 @@ Credentials defined on docker compose
 | username | root |
 | password | toor |
 
-**You can only use db as a server thanks to the link tag in the docker compose** On the php script you must to use db for make the connection with the database
-
 If the db it's working you can make the login
+
+### Obs
+#### DB Connection
+**You can only use db as a server thanks to the link tag in the docker compose** On the php script you must to use db for make the connection with the database
+Eg.:
+``` php
+<?php
+$servername = "db";
+$username = "root";
+$password = "toor";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+?>
+```
