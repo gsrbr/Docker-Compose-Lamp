@@ -76,3 +76,13 @@ if ($conn->connect_error) {
 echo "Connected successfully";
 ?>
 ```
+
+#### Changes the ports, passwords, volumes and images
+You can change these things on the docker-compose.yml 
+| Tag | Model |
+| --- | --- |
+| ports | host:container | 
+| volumes | host:container |
+| image | containe_name:version |
+
+and for change the pass of the db you can change the variable MYSQL_ROOT_PASSWORD
