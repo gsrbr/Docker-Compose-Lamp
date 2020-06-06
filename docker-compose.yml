@@ -1,0 +1,39 @@
+version: '3.3' #Define the version of the yml
+
+services:
+    php: #This it is the container of PHP-Apache
+        build: . #In this case I use a Dockerfile on my root for customize the PHP image(add: cURL, mysqli, pdo_mysql and allowing rewrite)
+        ports: #This method allows you to map the ports like "host:container"
+        - "80:80" #In this case my localhost:80 acess the port :80(http) of my php container
+        - "443:443" #In this case my localhost:443 acess the port :443(https) of my php container
+        volumes: #Containers are volatile, for save the modified files you need to use volumes, use "host:container"
+        - ./www/:/var/www/html #This allow-me change the php workdir without restart the container, and saves the changes
+        links: #with links we can make containers conections
+        - db #In this case the PHP have conection with the database
+        restart: always #If the server crash it will restart, theoretically...
+    
+    db: #This it's the container of the mysql database
+        image: mysql:5.7 #In this case I will use the official image without modifies
+        volumes:
+        - ./db:/var/lib/mysql #This allow the persistence of datas
+        environment: #Variables
+        - MYSQL_ROOT_PASSWORD=toor #The pass of the root User
+        #- MYSQL_DATABASE=first_database #If you want you can create a database here
+        restart: always
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:5 #In this case I will use the official image without modifies
+        links:
+          - db #In this case I need the link with the db for access my databases
+        ports:
+         - 3003:80 #This will run on port 3003 of my host machine (localhost:3003)
+        environment:
+        - PMA_ARBITRARY=1
+        restart: always
+
+    #[BONUS]If you want this it's the image of the composer, only change "your_project" to the local of your project and uncomment the lines below
+    #composer:
+        #image: composer:1.9
+        #command: ["composer", "install"]
+        #volumes:
+            #- ./www/your_project:/app
