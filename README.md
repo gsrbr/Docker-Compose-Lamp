@@ -83,6 +83,6 @@ You can change these things on the docker-compose.yml
 | --- | --- |
 | ports | host:container | 
 | volumes | host:container |
-| image | containe_name:version |
+| image | container_image_name:version |
 
 and for change the pass of the db you can change the variable MYSQL_ROOT_PASSWORD
